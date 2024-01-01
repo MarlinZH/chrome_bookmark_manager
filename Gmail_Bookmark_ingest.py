@@ -5,7 +5,6 @@ import json
 def get_bookmarks(bookmarks_path):
     with open(bookmarks_path,"r",encoding='utf-8') as file:
         bookmarks_list = json.load(file)
-        # print(bookmarks)
         print(json.dumps(bookmarks_list,indent=1))
         return bookmarks_list
 
@@ -38,7 +37,7 @@ def main():
     bookmarks_path = "C:\\Users\\FROAP\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
 
     bookmarks = get_bookmarks(bookmarks_path)
-    analyzer = analyze_bookmarks(bookmarks)
+    # analyzer = analyze_bookmarks(bookmarks)
 
 if __name__ == "__main__":
      main()
