@@ -1,15 +1,26 @@
 import spacy
 import json
 
-
-def get_bookmarks(bookmarks_path):
+def load_bookmarks(bookmarks_path):
     with open(bookmarks_path,"r",encoding='utf-8') as file:
-        bookmarks_list = json.load(file)
-        print(json.dumps(bookmarks_list,indent=1))
-        return bookmarks_list
+        bookmarks_content = json.load(file)
+        return bookmarks_content
 
-# def organize_bookmarks(rows):
-#     bookmarks_dict = {}
+def analyze_bookmarks(bookmark_list):
+    # nlp = spacy.load("en_core_web_sm")
+    # for bookmark in bookmark_list['roots']['bookmark_bar']['children']:
+    #     title = bookmark_list.get('name', '')
+    #     # print(title)
+    #     doc = nlp(title)
+    #     print(doc)
+    for bookmark in bookmark_list['roots']:
+        print(bookmark)
+        for book in bookmark[0]:
+            print(book)
+
+
+def organize_bookmarks():
+    bookmarks_dict = {}
 #     for row in rows:
 #         bookmark_id, parent_id, title, url = row
 #         bookmark = {'title': title, 'url': url, 'children': []}
@@ -23,21 +34,13 @@ def get_bookmarks(bookmarks_path):
 #
 #     # Return top-level bookmarks
 #     return list(bookmarks_dict.values())
-def analyze_bookmarks(bookmark_list):
-    nlp = spacy.load("en_core_web_sm")
-    for bookmark in bookmark_list['roots']['bookmark_bar']['children']:
-        title = bookmark.get('name', '')
-        # print(title)
-        doc = nlp(title)
-        print(doc)
+
 
 
 def main():
-
     bookmarks_path = "C:\\Users\\FROAP\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
-
-    bookmarks = get_bookmarks(bookmarks_path)
+    bookmarks = load_bookmarks(bookmarks_path)
     # analyzer = analyze_bookmarks(bookmarks)
-
+    print(json.dumps(bookmarks, indent=1))
 if __name__ == "__main__":
      main()
