@@ -9,20 +9,20 @@ def load_bookmarks(bookmarks_path):
         return bookmarks_content
 
 def analyze_bookmarks(bookmark_content):
-    # nlp = spacy.load("en_core_web_sm")
-    # for bookmark in bookmark_list['roots']['bookmark_bar']['children']:
-    #     title = bookmark_list.get('name', '')
-    #     # print(title)
-    #     doc = nlp(title)
-    #     print(doc)
     bookmarks_list = bookmark_content['roots']
     # print(bookmarks_list)
     bookmark_bar = bookmarks_list['bookmark_bar']
-    # print(bookmark_bar)
+    print(bookmark_bar)
     bookmarks = bookmark_bar['children']
-    # print(bookmarks)
+    print(bookmarks)
     for bookmark in bookmarks:
         print(bookmark['name'])
+        # nlp = spacy.load("en_core_web_sm")
+        # for bookmark in bookmark_list['roots']['bookmark_bar']['children']:
+        #     title = bookmark_list.get('name', '')
+        #     # print(title)
+        #     doc = nlp(title)
+        #     print(doc)
     #     for book in bookmark[0]:
     #         print(book)
 
