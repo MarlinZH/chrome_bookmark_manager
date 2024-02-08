@@ -13,9 +13,9 @@ def analyze_bookmarks(bookmark_content):
     # print(bookmarks_list)
     bookmark_bar = bookmarks_list['bookmark_bar']
     print(bookmark_bar)
-    bookmarks = bookmark_bar['children']
-    print(bookmarks)
-    for bookmark in bookmarks:
+    bookmark_folders = bookmark_bar['children']
+    print(bookmark_folders)
+    for bookmark in bookmark_folders:
         print(bookmark['name'])
         # nlp = spacy.load("en_core_web_sm")
         # for bookmark in bookmark_list['roots']['bookmark_bar']['children']:
@@ -25,23 +25,11 @@ def analyze_bookmarks(bookmark_content):
         #     print(doc)
     #     for book in bookmark[0]:
     #         print(book)
+    return bookmark_bar,bookmarks_list,bookmark
 
 
-def organize_bookmarks():
+def organize_bookmarks(bookmark_list):
     bookmarks_dict = {}
-#     for row in rows:
-#         bookmark_id, parent_id, title, url = row
-#         bookmark = {'title': title, 'url': url, 'children': []}
-#
-#         # Check if the parent_id is None (top-level bookmark)
-#         if parent_id is None:
-#             bookmarks_dict[bookmark_id] = bookmark
-#         else:
-#             # Add bookmark as a child to its parent
-#             bookmarks_dict[parent_id]['children'].append(bookmark)
-#
-#     # Return top-level bookmarks
-#     return list(bookmarks_dict.values())
 
 
 
@@ -49,6 +37,8 @@ def main():
     bookmarks_path = "C:\\Users\\FROAP\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Bookmarks"
     bookmarks = load_bookmarks(bookmarks_path)
     analyzer = analyze_bookmarks(bookmarks)
+    organizer = organize_bookmarks(analyzer)
+    print(organizer)
     # print(json.dumps(bookmarks, indent=1))
 if __name__ == "__main__":
      main()
