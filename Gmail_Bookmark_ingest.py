@@ -24,9 +24,7 @@ def identify_folders(bookmarks_path):
 
     print("ROOT:",bookmarks_root)
 
-    for bookmark in bookmarks_content:
-        if bookmark["type"] == "folder":
-            print(bookmark)
+
 
 
  
