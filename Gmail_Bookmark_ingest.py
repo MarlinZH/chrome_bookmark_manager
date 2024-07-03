@@ -9,6 +9,7 @@ def load_bookmarks(bookmarks_path):
     
 #READ ROOT LEVEL OF FILE
 def identify_folders(bookmarks_path):
+    bookmarks_folders = []
     bookmarks_content = load_bookmarks(bookmarks_path)
     print(bookmarks_content)
     bookmarks_root = bookmarks_content['roots']
@@ -16,10 +17,13 @@ def identify_folders(bookmarks_path):
     bookmark_bar_children = bookmark_bar['children']
     for child in bookmark_bar_children:
         if child['type'] == 'folder' :
+            bookmark_folder = child['name']
+            bookmarks_folders.append(bookmark_folder)
             print(child['name'])
 
+
     print("ROOT:",bookmarks_root)
-    bookmarks_folder = []
+
     for bookmark in bookmarks_content:
         if bookmark["type"] == "folder":
             print(bookmark)
