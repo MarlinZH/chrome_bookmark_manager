@@ -16,16 +16,18 @@ def identify_folders(bookmarks_path):
     bookmark_bar = bookmarks_root['bookmark_bar']
     bookmark_bar_children = bookmark_bar['children']
     bookmarks_folders = []
+
     for child in bookmark_bar_children:
         if child['type'] == 'folder' :
             bookmark_folder = child['name']
             bookmarks_folders.append(bookmark_folder)
             bookmark_folder_id = child['guid']
             bookmark_last_used = child['date_last_used']
-            if 'children' in bookmark_bar_children:
-                for children in child['children']:
-                   nested_child = children['name']
-            print(child['name'])
+            for children in child['children']:
+                  if children['type'] == 'folder':
+                   nested_children = children['name']
+                   bookmarks_folders.append(nested_children)
+            print(bookmark_folder)
 
 
 
