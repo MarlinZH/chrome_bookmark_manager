@@ -10,13 +10,11 @@ def load_bookmarks(bookmarks_path):
 #READ ROOT LEVEL OF FILE
 def identify_folders(bookmarks_path):
     bookmarks_content = load_bookmarks(bookmarks_path)
-
     # print(bookmarks_content)
     bookmarks_root = bookmarks_content['roots']
     bookmark_bar = bookmarks_root['bookmark_bar']
     bookmark_bar_children = bookmark_bar['children']
     bookmarks_folders = []
-
     for child in bookmark_bar_children:
         if child['type'] == 'folder' :
             bookmark_folder = child['name']
@@ -27,12 +25,16 @@ def identify_folders(bookmarks_path):
                   if children['type'] == 'folder':
                    nested_children = children['name']
                    bookmarks_folders.append(nested_children)
-            print(bookmark_folder)
-folder_frame=pd.
-pd
+    df = pd.DataFrame(bookmarks_folders, columns='Folders')
+    # print('Folders',bookmarks_folders)
+    print(df )
+    # return bookmarks_folders
 
 
-    print("ROOT:",bookmarks_root)
+
+
+
+
 
 
 
