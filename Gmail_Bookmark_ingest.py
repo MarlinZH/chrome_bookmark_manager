@@ -1,5 +1,6 @@
 import json
 import pandas as pd
+from notion_client import Client
 
 def load_bookmarks(bookmarks_path):
     try:
@@ -31,10 +32,33 @@ def identify_folders(bookmarks_path):
     extract_folders(bookmark_bar_children, bookmarks_folders)
     df = pd.DataFrame(bookmarks_folders, columns=['Folders'])
     print(df)
+    return bookmarks_folders
+
+def import_to_notion(bookmarks_folders, notion_token, database_id):
+    notion = Client(auth=notion_token)
+    for folder in bookmarks_folders:
+        notion.pages.create(
+            parent={"database_id": database_id},
+            properties={
+                "Name": {
+                    "title": [
+                        {
+                            "text": {
+                                "content": folder
+                            }
+                        }
+                    ]
+                }
+            }
+        )
 
 def main():
     bookmarks_path = r"C:\Users\FROAP\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
-    identify_folders(bookmarks_path)
+    notion_token = "your_notion_integration_token"
+    database_id = "your_notion_database_id"
+    bookmarks_folders = identify_folders(bookmarks_path)
+    if bookmarks_folders:
+        import_to_notion(bookmarks_folders, notion_token, database_id)
 
 if __name__ == "__main__":
     main()
