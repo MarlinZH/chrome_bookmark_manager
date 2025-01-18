@@ -6,7 +6,6 @@ import re
 BOOKMARKS_JSON_FILE = r"C:\Users\Froap\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"  # Replace with the path to your exported HTML file
 OBSIDIAN_VAULT_DIR = r"C:\Users\Froap\OneDrive\.Diagrams\Obsidian-Mainframe"  # Replace with the path to your Obsidian vault
 OUTPUT_FOLDER = "Google Bookmarks"  # Folder inside the vault to store the bookmarks
-
 # Ensure the output folder exists
 output_path = os.path.join(OBSIDIAN_VAULT_DIR, OUTPUT_FOLDER)
 os.makedirs(output_path, exist_ok=True)
@@ -62,12 +61,12 @@ def create_combined_markdown(bookmarks, output_folder):
     def write_folder_contents(folder_dict, indent_level=0):
         output = []
         for key, value in folder_dict.items():
-            if isinstance(value, dict):
-                output.append(f"{'  ' * indent_level}- **{key}**\n")
+            if isinstance(value, dict) and "url" not in value:
+                output.append(f"{'  ' * indent_level}- [[{key}]]\n")
                 output.extend(write_folder_contents(value, indent_level + 1))
-            else:
+            elif isinstance(value, dict):
                 output.append(
-                    f"{'  ' * indent_level}- [{value['title']}]({value['url']})\n"
+                    f"{'  ' * indent_level}- [[{value['title']}]]({value['url']})\n"
                 )
                 if value["description"]:
                     output.append(
