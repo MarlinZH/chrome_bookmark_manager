@@ -1,0 +1,56 @@
+body {
+  font-family: sans-serif;
+  margin: 20px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+#existing-folders, #recommended-folders, #bookmarks-in-folder {
+  border: 1px solid #ccc;
+  padding: 15px;
+  border-radius: 5px;
+}
+
+#folder-list, #recommendation-list, #bookmark-list {
+  list-style: none;
+  padding: 0;
+}
+
+#folder-list li, #recommendation-list li, #bookmark-list li {
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+#folder-list li:hover, #recommendation-list li:hover, #bookmark-list li:hover {
+  background-color: #f0f0f0;
+}
+
+#bookmark-list li a {
+  text-decoration: none;
+  color: inherit;
+}
+
+#new-folder-name {
+  padding: 8px;
+  margin-top: 10px;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+}
+
+#create-folder-button {
+  padding: 8px 15px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+#create-folder-button:hover {
+  background-color: #0056b3;
+}
