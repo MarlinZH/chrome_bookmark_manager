@@ -44,160 +44,155 @@
 
 # create_xmind_from_google_bookmarks(google_bookmarks_json, output_xmind_file)
 
-import json
-# # import os
-# # import zipfile
-# # import uuid
+
+# def create_meta_xml(output_dir):
+#     """
+#     Generate meta.xml file required for XMind.
+#     """
+#     meta_xml_content = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+# <meta xmlns="urn:xmind:xmap:xmlns:meta:2.0" version="2.0">
+#   <Creator>Python Script</Creator>
+# </meta>
+# """
+#     meta_path = os.path.join(output_dir, "meta.xml")
+#     with open(meta_path, "w", encoding="utf-8") as file:
+#         file.write(meta_xml_content)
 
 
-# # def create_meta_xml(output_dir):
-# #     """
-# #     Generate meta.xml file required for XMind.
-# #     """
-# #     meta_xml_content = """<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-# # <meta xmlns="urn:xmind:xmap:xmlns:meta:2.0" version="2.0">
-# #   <Creator>Python Script</Creator>
-# # </meta>
-# # """
-# #     meta_path = os.path.join(output_dir, "meta.xml")
-# #     with open(meta_path, "w", encoding="utf-8") as file:
-# #         file.write(meta_xml_content)
+# def create_styles_xml(output_dir):
+#     """
+#     Generate styles.xml file required for XMind.
+#     """
+#     styles_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
+# <styles xmlns="urn:xmind:xmap:xmlns:style:2.0">
+#   <style id="default-topic" type="topic">
+#     <topic-properties shape-class="org.xmind.topicShape.roundedRect" />
+#   </style>
+# </styles>
+# """
+#     styles_path = os.path.join(output_dir, "styles.xml")
+#     with open(styles_path, "w", encoding="utf-8") as file:
+#         file.write(styles_xml_content)
 
 
-# # def create_styles_xml(output_dir):
-# #     """
-# #     Generate styles.xml file required for XMind.
-# #     """
-# #     styles_xml_content = """<?xml version="1.0" encoding="UTF-8"?>
-# # <styles xmlns="urn:xmind:xmap:xmlns:style:2.0">
-# #   <style id="default-topic" type="topic">
-# #     <topic-properties shape-class="org.xmind.topicShape.roundedRect" />
-# #   </style>
-# # </styles>
-# # """
-# #     styles_path = os.path.join(output_dir, "styles.xml")
-# #     with open(styles_path, "w", encoding="utf-8") as file:
-# #         file.write(styles_xml_content)
+# def create_manifest(output_dir):
+#     """
+#     Generate the META-INF/manifest.xml file required for XMind.
+#     """
+#     meta_inf_dir = os.path.join(output_dir, "META-INF")
+#     os.makedirs(meta_inf_dir, exist_ok=True)
+#     manifest_content = """<?xml version="1.0" encoding="UTF-8"?>
+# <manifest xmlns="urn:xmind:xmap:xmlns:manifest:1.0">
+#   <file-entry full-path="content.xml" media-type="text/xml" />
+#   <file-entry full-path="meta.xml" media-type="text/xml" />
+#   <file-entry full-path="styles.xml" media-type="text/xml" />
+# </manifest>
+# """
+#     manifest_path = os.path.join(meta_inf_dir, "manifest.xml")
+#     with open(manifest_path, "w", encoding="utf-8") as file:
+#         file.write(manifest_content)
 
 
-# # def create_manifest(output_dir):
-# #     """
-# #     Generate the META-INF/manifest.xml file required for XMind.
-# #     """
-# #     meta_inf_dir = os.path.join(output_dir, "META-INF")
-# #     os.makedirs(meta_inf_dir, exist_ok=True)
-# #     manifest_content = """<?xml version="1.0" encoding="UTF-8"?>
-# # <manifest xmlns="urn:xmind:xmap:xmlns:manifest:1.0">
-# #   <file-entry full-path="content.xml" media-type="text/xml" />
-# #   <file-entry full-path="meta.xml" media-type="text/xml" />
-# #   <file-entry full-path="styles.xml" media-type="text/xml" />
-# # </manifest>
-# # """
-# #     manifest_path = os.path.join(meta_inf_dir, "manifest.xml")
-# #     with open(manifest_path, "w", encoding="utf-8") as file:
-# #         file.write(manifest_content)
+# def parse_bookmarks(bookmarks, parent=None):
+#     """
+#     Recursively parses Google Bookmarks JSON data into a hierarchy suitable for XMind.
+#     """
+#     topics = []
+#     for bookmark in bookmarks:
+#         # Debugging: Print the structure to verify
+#         print(f"Processing: {bookmark}")
+#         if isinstance(bookmark, dict) and "children" in bookmark:  # It's a folder
+#             topic = {
+#                 "id": str(uuid.uuid4()),
+#                 "title": bookmark.get("name", "Untitled Folder"),
+#                 "children": {
+#                     "attached": parse_bookmarks(
+#                         bookmark["children"], parent=bookmark.get("id", None)
+#                     )
+#                 },
+#             }
+#         elif isinstance(bookmark, dict) and "name" in bookmark:  # It's a bookmark
+#             topic = {
+#                 "id": str(uuid.uuid4()),
+#                 "title": bookmark.get("name", "Untitled Bookmark"),
+#             }
+#         else:
+#             raise ValueError(f"Unexpected bookmark structure: {bookmark}")
+#         topics.append(topic)
+#     return topics
 
 
-# # def parse_bookmarks(bookmarks, parent=None):
-# #     """
-# #     Recursively parses Google Bookmarks JSON data into a hierarchy suitable for XMind.
-# #     """
-# #     topics = []
-# #     for bookmark in bookmarks:
-# #         # Debugging: Print the structure to verify
-# #         print(f"Processing: {bookmark}")
-# #         if isinstance(bookmark, dict) and "children" in bookmark:  # It's a folder
-# #             topic = {
-# #                 "id": str(uuid.uuid4()),
-# #                 "title": bookmark.get("name", "Untitled Folder"),
-# #                 "children": {
-# #                     "attached": parse_bookmarks(
-# #                         bookmark["children"], parent=bookmark.get("id", None)
-# #                     )
-# #                 },
-# #             }
-# #         elif isinstance(bookmark, dict) and "name" in bookmark:  # It's a bookmark
-# #             topic = {
-# #                 "id": str(uuid.uuid4()),
-# #                 "title": bookmark.get("name", "Untitled Bookmark"),
-# #             }
-# #         else:
-# #             raise ValueError(f"Unexpected bookmark structure: {bookmark}")
-# #         topics.append(topic)
-# #     return topics
+# def generate_content_xml(bookmarks_json, output_dir):
+#     """
+#     Generate content.xml file for XMind.
+#     """
+#     content_xml_path = os.path.join(output_dir, "content.xml")
+
+#     # Root topic
+#     root_topic = {
+#         "id": "root-topic",
+#         "title": "Google Bookmarks",
+#         "children": {"attached": parse_bookmarks(bookmarks_json)},
+#     }
+
+#     # Create XML content
+#     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
+#     xml_content += '<xmap-content xmlns="urn:xmind:xmap:xmlns:content:2.0">\n'
+#     xml_content += '  <sheet id="sheet-1" class="sheet">\n'
+#     xml_content += "    <title>Google Bookmarks</title>\n"
+#     xml_content += f'    <topic id="{root_topic["id"]}">\n'
+#     xml_content += f'      <title>{root_topic["title"]}</title>\n'
+
+#     def add_children(children, indent=6):
+#         xml = ""
+#         for child in children:
+#             child_title = child.get("title", "")
+#             child_id = child["id"]
+#             xml += " " * indent + f'<topic id="{child_id}">\n'
+#             xml += " " * (indent + 2) + f"<title>{child_title}</title>\n"
+#             if "children" in child:
+#                 xml += add_children(child["children"]["attached"], indent + 4)
+#             xml += " " * indent + "</topic>\n"
+#         return xml
+
+#     xml_content += add_children(root_topic["children"]["attached"])
+#     xml_content += "    </topic>\n"
+#     xml_content += "  </sheet>\n"
+#     xml_content += "</xmap-content>\n"
+
+#     # Write to content.xml
+#     os.makedirs(output_dir, exist_ok=True)
+#     with open(content_xml_path, "w", encoding="utf-8") as file:
+#         file.write(xml_content)
 
 
-# # def generate_content_xml(bookmarks_json, output_dir):
-# #     """
-# #     Generate content.xml file for XMind.
-# #     """
-# #     content_xml_path = os.path.join(output_dir, "content.xml")
-
-# #     # Root topic
-# #     root_topic = {
-# #         "id": "root-topic",
-# #         "title": "Google Bookmarks",
-# #         "children": {"attached": parse_bookmarks(bookmarks_json)},
-# #     }
-
-# #     # Create XML content
-# #     xml_content = '<?xml version="1.0" encoding="UTF-8"?>\n'
-# #     xml_content += '<xmap-content xmlns="urn:xmind:xmap:xmlns:content:2.0">\n'
-# #     xml_content += '  <sheet id="sheet-1" class="sheet">\n'
-# #     xml_content += "    <title>Google Bookmarks</title>\n"
-# #     xml_content += f'    <topic id="{root_topic["id"]}">\n'
-# #     xml_content += f'      <title>{root_topic["title"]}</title>\n'
-
-# #     def add_children(children, indent=6):
-# #         xml = ""
-# #         for child in children:
-# #             child_title = child.get("title", "")
-# #             child_id = child["id"]
-# #             xml += " " * indent + f'<topic id="{child_id}">\n'
-# #             xml += " " * (indent + 2) + f"<title>{child_title}</title>\n"
-# #             if "children" in child:
-# #                 xml += add_children(child["children"]["attached"], indent + 4)
-# #             xml += " " * indent + "</topic>\n"
-# #         return xml
-
-# #     xml_content += add_children(root_topic["children"]["attached"])
-# #     xml_content += "    </topic>\n"
-# #     xml_content += "  </sheet>\n"
-# #     xml_content += "</xmap-content>\n"
-
-# #     # Write to content.xml
-# #     os.makedirs(output_dir, exist_ok=True)
-# #     with open(content_xml_path, "w", encoding="utf-8") as file:
-# #         file.write(xml_content)
+# def rezip_as_xmind(source_dir, output_xmind_file):
+#     """
+#     Re-zips a folder into an XMind file.
+#     """
+#     with zipfile.ZipFile(output_xmind_file, "w", zipfile.ZIP_DEFLATED) as zipf:
+#         for root, _, files in os.walk(source_dir):
+#             for file in files:
+#                 file_path = os.path.join(root, file)
+#                 arcname = os.path.relpath(file_path, start=source_dir)
+#                 zipf.write(file_path, arcname)
+#     print(f"XMind file created at {output_xmind_file}")
 
 
-# # def rezip_as_xmind(source_dir, output_xmind_file):
-# #     """
-# #     Re-zips a folder into an XMind file.
-# #     """
-# #     with zipfile.ZipFile(output_xmind_file, "w", zipfile.ZIP_DEFLATED) as zipf:
-# #         for root, _, files in os.walk(source_dir):
-# #             for file in files:
-# #                 file_path = os.path.join(root, file)
-# #                 arcname = os.path.relpath(file_path, start=source_dir)
-# #                 zipf.write(file_path, arcname)
-# #     print(f"XMind file created at {output_xmind_file}")
+# # Example usage
+# google_bookmarks_json = r"C:\Users\FROAP\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"  # Path to your Google Bookmarks JSON file
 
+# output_directory = "xmind_structure"
+# xmind_output_file = "bookmarks.xmind"
 
-# # # Example usage
-# # google_bookmarks_json = r"C:\Users\FROAP\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"  # Path to your Google Bookmarks JSON file
+# # Generate XMind components
+# generate_content_xml(google_bookmarks_json, output_directory)
+# create_meta_xml(output_directory)
+# create_styles_xml(output_directory)
+# create_manifest(output_directory)
 
-# # output_directory = "xmind_structure"
-# # xmind_output_file = "bookmarks.xmind"
-
-# # # Generate XMind components
-# # generate_content_xml(google_bookmarks_json, output_directory)
-# # create_meta_xml(output_directory)
-# # create_styles_xml(output_directory)
-# # create_manifest(output_directory)
-
-# # # Re-zip as XMind
-# # rezip_as_xmind(output_directory, xmind_output_file)
+# # Re-zip as XMind
+# rezip_as_xmind(output_directory, xmind_output_file)
 
 import os
 import json
