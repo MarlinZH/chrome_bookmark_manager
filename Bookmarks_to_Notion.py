@@ -1,7 +1,7 @@
 import json
 import pandas as pd
 from notion_client import Client
-
+import
 def load_bookmarks(bookmarks_path):
     try:
         with open(bookmarks_path, "r", encoding="utf-8") as file:
@@ -54,11 +54,15 @@ def import_to_notion(bookmarks_folders, notion_token, database_id):
 
 def main():
     bookmarks_path = r"C:\Users\FROAP\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
+    bookmark_content = load_bookmarks(bookmarks_path)
+    print(bookmark_content)
+    bookmark_bar = bookmark_content['roots']['bookmark_bar']['children']
+    print(bookmark_bar)
     notion_token = "your_notion_integration_token"
-    database_id = "your_notion_database_id"
-    bookmarks_folders = identify_folders(bookmarks_path)
-    if bookmarks_folders:
-        import_to_notion(bookmarks_folders, notion_token, database_id)
+    # database_id = "your_notion_database_id"
+    # bookmarks_folders = identify_folders(bookmarks_path)
+    # if bookmarks_folders:
+    #     import_to_notion(bookmarks_folders, notion_token, database_id)
 
 if __name__ == "__main__":
     main()
