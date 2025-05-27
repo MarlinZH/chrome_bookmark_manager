@@ -1,7 +1,8 @@
 import json
 import pandas as pd
 from notion_client import Client
-import
+import huggingface
+
 def load_bookmarks(bookmarks_path):
     try:
         with open(bookmarks_path, "r", encoding="utf-8") as file:
