@@ -1,7 +1,15 @@
 import json
 import pandas as pd
 from notion_client import Client
-import huggingface
+# import huggingface
+import os
+import sys
+sys.path.append(r"C:\Users\Froap\OneDrive\_DEV\.Secrets")
+import blub
+
+def load_env():
+    os.environ["NOTION_TOKEN"] = blub.get_secret("NOTION_TOKEN")
+    os.environ["DATABASE_ID"] = blub.get_secret("DATABASE_ID")
 
 def load_bookmarks(bookmarks_path):
     try:
