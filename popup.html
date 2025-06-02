@@ -17,7 +17,41 @@
   <div class="p-4">
     <h1 class="text-2xl font-bold mb-4 text-gray-800">AI Bookmark Manager</h1>
     
-    <div class="mb-4">
+    <!-- Notion Integration Section -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Notion Integration</h2>
+      <div class="space-y-2">
+        <input type="text" id="notion-token" placeholder="Notion Integration Token" class="w-full p-2 border rounded">
+        <input type="text" id="notion-database" placeholder="Notion Database ID" class="w-full p-2 border rounded">
+        <button id="export-to-notion" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition">
+          Export to Notion
+        </button>
+      </div>
+    </div>
+
+    <div id="existing-folders">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Existing Folders</h2>
+      <ul id="folder-list" class="space-y-1">
+      </ul>
+    </div>
+    
+    <div id="recommended-folders" class="mt-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Recommended New Folders</h2>
+      <ul id="recommendation-list" class="space-y-1">
+      </ul>
+      <div class="flex space-x-2 mt-2">
+        <input type="text" id="new-folder-name" placeholder="Create New Folder" class="flex-1 p-2 border rounded">
+        <button id="create-folder-button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Create</button>
+      </div>
+    </div>
+    
+    <div id="bookmarks-in-folder" class="mt-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Bookmarks in Selected Folder</h2>
+      <ul id="bookmark-list" class="space-y-1">
+      </ul>
+    </div>
+
+    <div class="mb-4 mt-4">
       <button id="analyzeBtn" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
         Analyze Bookmarks
       </button>
@@ -40,6 +74,6 @@
       </div>
     </div>
   </div>
-  <script src="popup.js"></script>
+  <script type="module" src="popup.js"></script>
 </body>
 </html> 

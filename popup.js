@@ -1,4 +1,5 @@
 import OSOMIntegration from './osom-integration.js';
+import NotionIntegration from './notion-integration.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   const folderList = document.getElementById('folder-list');
@@ -10,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const loadingDiv = document.querySelector('.loading');
   const categoriesDiv = document.getElementById('categories');
   const organizationDiv = document.getElementById('organization');
+
+  // Notion Integration Elements
+  const notionTokenInput = document.getElementById('notion-token');
+  const notionDatabaseInput = document.getElementById('notion-database');
+  const exportToNotionButton = document.getElementById('export-to-notion');
 
   const osom = new OSOMIntegration();
   let allBookmarks = [];
@@ -172,4 +178,80 @@ document.addEventListener('DOMContentLoaded', () => {
     displayExistingFolders(topLevelFolders);
     getAllBookmarks(); // This will trigger the AI analysis and recommendation display
   });
+
+  // Load saved Notion credentials
+  chrome.storage.local.get(['notionToken', 'notionDatabaseId'], (result) => {
+    if (result.notionToken) notionTokenInput.value = result.notionToken;
+    if (result.notionDatabaseId) notionDatabaseInput.value = result.notionDatabaseId;
+  });
+
+  // Save Notion credentials when changed
+  notionTokenInput.addEventListener('change', () => {
+    chrome.storage.local.set({ notionToken: notionTokenInput.value });
+  });
+
+  notionDatabaseInput.addEventListener('change', () => {
+    chrome.storage.local.set({ notionDatabaseId: notionDatabaseInput.value });
+  });
+
+  // Export to Notion functionality
+  exportToNotionButton.addEventListener('click', async () => {
+    const token = notionTokenInput.value.trim();
+    const databaseId = notionDatabaseInput.value.trim();
+
+    if (!token || !databaseId) {
+      alert('Please enter both Notion token and database ID');
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const notion = new NotionIntegration(token, databaseId);
+      
+      // Get all bookmarks with their folder structure
+      const bookmarks = await getAllBookmarksWithFolders();
+      
+      // Export to Notion
+      const results = await notion.importBookmarks(bookmarks);
+      
+      // Show results
+      const successCount = results.filter(r => r.success).length;
+      const failCount = results.length - successCount;
+      
+      alert(`Export completed!\nSuccessfully exported: ${successCount}\nFailed: ${failCount}`);
+      
+    } catch (error) {
+      console.error('Error exporting to Notion:', error);
+      alert('Error exporting to Notion: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  });
+
+  // Function to get all bookmarks with their folder structure
+  async function getAllBookmarksWithFolders() {
+    return new Promise((resolve) => {
+      chrome.bookmarks.getTree(results => {
+        const bookmarks = [];
+        
+        function processNode(node, currentPath = '') {
+          if (node.url) {
+            bookmarks.push({
+              title: node.title,
+              url: node.url,
+              folder: currentPath
+            });
+          }
+          
+          if (node.children) {
+            const newPath = currentPath ? `${currentPath}/${node.title}` : node.title;
+            node.children.forEach(child => processNode(child, newPath));
+          }
+        }
+        
+        processNode(results[0]);
+        resolve(bookmarks);
+      });
+    });
+  }
 }); 
