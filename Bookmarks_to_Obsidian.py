@@ -3,6 +3,7 @@ import json
 import re
 
 # Configuration
+#TODO: Make Dynamic
 BOOKMARKS_JSON_FILE = r"C:\Users\Froap\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"  # Replace with the path to your exported HTML file
 OBSIDIAN_VAULT_DIR = r"C:\Users\Froap\OneDrive\.Diagrams\Obsidian-Mainframe"  # Replace with the path to your Obsidian vault
 OUTPUT_FOLDER = "Google Bookmarks"  # Folder inside the vault to store the bookmarks
