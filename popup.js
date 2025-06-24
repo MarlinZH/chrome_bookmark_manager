@@ -254,4 +254,23 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-}); 
+
+  document.getElementById('save-notion-creds').addEventListener('click', () => {
+    const token = document.getElementById('notion-token').value.trim();
+    const dbId = document.getElementById('notion-db-id').value.trim();
+    chrome.storage.local.set({ notionToken: token, notionDbId: dbId }, () => {
+      document.getElementById('notion-save-status').classList.remove('hidden');
+      setTimeout(() => {
+        document.getElementById('notion-save-status').classList.add('hidden');
+      }, 2000);
+    });
+  });
+
+  // On load, populate fields if saved
+  window.addEventListener('DOMContentLoaded', () => {
+    chrome.storage.local.get(['notionToken', 'notionDbId'], (data) => {
+      if (data.notionToken) document.getElementById('notion-token').value = data.notionToken;
+      if (data.notionDbId) document.getElementById('notion-db-id').value = data.notionDbId;
+    });
+  });
+});
