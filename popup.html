@@ -16,7 +16,21 @@
 <body class="bg-gray-100">
   <div class="p-4">
     <h1 class="text-2xl font-bold mb-4 text-gray-800">AI Bookmark Manager</h1>
-    
+    <div class="p-4">
+  <h2 class="text-lg font-bold mb-2">Notion Integration Setup</h2>
+  <ol class="list-decimal list-inside mb-4 text-sm">
+    <li>Go to <a href="https://www.notion.so/my-integrations" target="_blank" class="text-blue-600 underline">Notion Integrations</a> and create a new integration.</li>
+    <li>Copy the "Internal Integration Token" and paste it below.</li>
+    <li>Share your Notion database with your integration (using the "Share" button in Notion).</li>
+    <li>Open your database in a browser, copy the URL, and extract the Database ID (the long string after <code>/</code> and before <code>?</code>).</li>
+  </ol>
+  <label class="block mb-1 text-sm font-medium">Notion Token:</label>
+  <input id="notion-token" type="password" class="w-full border rounded px-2 py-1 mb-2" placeholder="Paste your Notion token here" />
+  <label class="block mb-1 text-sm font-medium">Database ID:</label>
+  <input id="notion-db-id" type="text" class="w-full border rounded px-2 py-1 mb-2" placeholder="Paste your Database ID here" />
+  <button id="save-notion-creds" class="bg-blue-600 text-white px-4 py-1 rounded">Save</button>
+  <div id="notion-save-status" class="text-green-600 mt-2 text-sm hidden">Saved!</div>
+</div>
     <!-- Notion Integration Section -->
     <div class="bg-white rounded-lg shadow p-4 mb-4">
       <h2 class="text-lg font-semibold mb-2 text-gray-700">Notion Integration</h2>
