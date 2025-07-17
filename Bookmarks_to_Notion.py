@@ -2,6 +2,7 @@ import json
 import pandas as pd
 from notion_client import Client
 import os
+import
 
 def load_env():
     os.environ["NOTION_TOKEN"] = blub.get_secret("NOTION_TOKEN")
