@@ -12,6 +12,7 @@ import blob
 # Initialize NLTK
 nltk.download("punkt")
 nltk.download("stopwords")
+ii ~wate by --3
 
 
 # Function to load bookmarks JSON
