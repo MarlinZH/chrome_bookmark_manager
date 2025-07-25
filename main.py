@@ -35,8 +35,7 @@ def extract_folders(children):
     return folders
 
 
-# Organize bookmarks by folder
-def organize_bookmarks(bookmarks_data):
+# Organize bookmarks by folder 
     bookmark_bar = bookmarks_data.get("roots", {}).get("bookmark_bar", {})
     organized = {
         folder.get("name", ""): [
