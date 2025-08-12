@@ -35,7 +35,7 @@ The extension is built using:
 - Integration with external AI APIs for better analysis
 - Custom categorization rules
 - Export/import functionality
-- Sync with cloud storage services
+- Sync with cloud storage services.
 
 ## Contributing
 
