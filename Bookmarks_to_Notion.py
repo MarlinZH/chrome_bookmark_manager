@@ -2,12 +2,22 @@ import json
 import pandas as pd
 from notion_client import Client
 import os
+import platform
 
 
-def load_env():
-    os.environ["NOTION_TOKEN"] = blub.get_secret("NOTION_TOKEN")
-
-    os.environ["DATABASE_ID"] = blub.get_secret("DATABASE_ID")
+def get_bookmarks_path():
+    system = platform.system()
+    if system == "Windows":
+        user = os.getlogin()
+        return fr"C:\Users\{user}\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
+    elif system == "Linux":
+        user = os.getlogin()
+        return f"/home/{user}/.config/google-chrome/Default/Bookmarks"
+    elif system == "Darwin":
+        user = os.getlogin()
+        return f"/Users/{user}/Library/Application Support/Google/Chrome/Default/Bookmarks"
+    else:
+        raise Exception("Unsupported OS")
 
 
 def load_bookmarks(bookmarks_path):
@@ -22,6 +32,7 @@ def load_bookmarks(bookmarks_path):
         print("Error: File is not a valid JSON.")
         return None
 
+
 def extract_folders(children, bookmarks_folders):
     for child in children:
         if child['type'] == 'folder':
@@ -29,18 +40,15 @@ def extract_folders(children, bookmarks_folders):
             if 'children' in child:
                 extract_folders(child['children'], bookmarks_folders)
 
-def identify_folders(bookmarks_path):
-    bookmarks_content = load_bookmarks(bookmarks_path)
-    if not bookmarks_content:
-        return
+
+def identify_folders(bookmarks_content):
     bookmarks_root = bookmarks_content['roots']
     bookmark_bar = bookmarks_root['bookmark_bar']
     bookmark_bar_children = bookmark_bar['children']
     bookmarks_folders = []
     extract_folders(bookmark_bar_children, bookmarks_folders)
-    df = pd.DataFrame(bookmarks_folders, columns=['Folders'])
-    print(df)
     return bookmarks_folders
+
 
 def import_to_notion(bookmarks_folders, notion_token, database_id):
     notion = Client(auth=notion_token)
@@ -60,17 +68,21 @@ def import_to_notion(bookmarks_folders, notion_token, database_id):
             }
         )
 
+
 def main():
-    bookmarks_path = r"C:\Users\FROAP\AppData\Local\Google\Chrome\User Data\Default\Bookmarks"
-    bookmark_content = load_bookmarks(bookmarks_path)
-    print(bookmark_content)
-    bookmark_bar = bookmark_content['roots']['bookmark_bar']['children']
-    print(bookmark_bar)
-    notion_token = "your_notion_integration_token"
-    # database_id = "your_notion_database_id"
-    # bookmarks_folders = identify_folders(bookmarks_path)
-    # if bookmarks_folders:
-    #     import_to_notion(bookmarks_folders, notion_token, database_id)
+    bookmarks_path = get_bookmarks_path()
+    notion_token = os.getenv("NOTION_TOKEN")
+    database_id = os.getenv("DATABASE_ID")
+    if not notion_token or not database_id:
+        print("Please set NOTION_TOKEN and DATABASE_ID environment variables.")
+        return
+    bookmarks_content = load_bookmarks(bookmarks_path)
+    if not bookmarks_content:
+        return
+    bookmarks_folders = identify_folders(bookmarks_content)
+    if bookmarks_folders:
+        import_to_notion(bookmarks_folders, notion_token, database_id)
+        print("Bookmarks folders imported to Notion.")
 
 if __name__ == "__main__":
     main()
