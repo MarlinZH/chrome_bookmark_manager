@@ -29,6 +29,7 @@ The extension is built using:
 - HTML/CSS (with Tailwind CSS for styling)
 - JavaScript (ES6+)
 - Chrome Extension APIs
+-Python 
 
 ## Future Improvements
 
