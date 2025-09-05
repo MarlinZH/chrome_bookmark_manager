@@ -7,7 +7,7 @@ from nltk.corpus import stopwords
 from collections import defaultdict
 import nltk
 import os
-import blob
+#import blob
 
 # Initialize NLTK
 nltk.download("punkt")
