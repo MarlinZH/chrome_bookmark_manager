@@ -31,7 +31,7 @@ The extension is built using:
 - Chrome Extension APIs
 -Python 
 
-## Future Improvements
+## Future Improvements#
 
 - Integration with external AI APIs for better analysis
 - Custom categorization rules
