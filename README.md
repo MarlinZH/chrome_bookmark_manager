@@ -1,6 +1,6 @@
 # AI Bookmark Manager Chrome Extension
 
-An intelligent Chrome extension that helps you organize and manage your bookmarks using AI-powered analysis.
+An intelligent Chrome extension that helps you organize and manage your bookmarks using AI-powered analysis part of the OSOM AI framework..
 
 ## Features
 
@@ -29,8 +29,9 @@ The extension is built using:
 - HTML/CSS (with Tailwind CSS for styling)
 - JavaScript (ES6+)
 - Chrome Extension APIs
+-Python 
 
-## Future Improvements
+## Future Improvements#
 
 - Integration with external AI APIs for better analysis
 - Custom categorization rules
