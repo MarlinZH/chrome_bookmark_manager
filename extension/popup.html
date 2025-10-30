@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Bookmark Manager</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="styles/popup.css">
+</head>
+<body class="bg-gray-100">
+  <div class="p-4">
+    <h1 class="text-2xl font-bold mb-4 text-gray-800">AI Bookmark Manager</h1>
+    
+    <!-- Notion Integration Setup -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-bold mb-2">Notion Integration Setup</h2>
+      <div class="text-xs text-gray-600 mb-3 space-y-1">
+        <p>🔒 Your credentials are encrypted and stored securely</p>
+      </div>
+      <ol class="list-decimal list-inside mb-4 text-sm space-y-1">
+        <li>Go to <a href="https://www.notion.so/my-integrations" target="_blank" class="text-blue-600 underline">Notion Integrations</a> and create a new integration.</li>
+        <li>Copy the "Internal Integration Token" and paste it below.</li>
+        <li>Share your Notion database with your integration.</li>
+        <li>Copy the Database ID from the database URL.</li>
+      </ol>
+      <label class="block mb-1 text-sm font-medium">Notion Token:</label>
+      <input id="notion-token" type="password" class="w-full border rounded px-2 py-1 mb-2" placeholder="Paste your Notion token here" />
+      <label class="block mb-1 text-sm font-medium">Database ID:</label>
+      <input id="notion-db-id" type="text" class="w-full border rounded px-2 py-1 mb-2" placeholder="Paste your Database ID here" />
+      <div class="flex space-x-2">
+        <button id="save-notion-creds" class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700 transition">Save</button>
+        <button id="clear-notion-creds" class="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-600 transition">Clear</button>
+      </div>
+      <div id="notion-save-status" class="text-green-600 mt-2 text-sm hidden">Saved securely!</div>
+    </div>
+
+    <!-- Export Section -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Export Options</h2>
+      <button id="export-to-notion" class="w-full bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 transition mb-2">
+        Export to Notion
+      </button>
+    </div>
+
+    <!-- Existing Folders -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Existing Folders</h2>
+      <ul id="folder-list" class="space-y-1 max-h-40 overflow-y-auto">
+      </ul>
+    </div>
+    
+    <!-- Recommended Folders -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Recommended New Folders</h2>
+      <ul id="recommendation-list" class="space-y-1 max-h-32 overflow-y-auto">
+      </ul>
+      <div class="flex space-x-2 mt-2">
+        <input type="text" id="new-folder-name" placeholder="Create New Folder" class="flex-1 p-2 border rounded">
+        <button id="create-folder-button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Create</button>
+      </div>
+    </div>
+    
+    <!-- Bookmarks in Folder -->
+    <div class="bg-white rounded-lg shadow p-4 mb-4">
+      <h2 class="text-lg font-semibold mb-2 text-gray-700">Bookmarks in Selected Folder</h2>
+      <ul id="bookmark-list" class="space-y-1 max-h-40 overflow-y-auto">
+      </ul>
+    </div>
+
+    <!-- Analyze Button -->
+    <div class="mb-4">
+      <button id="analyzeBtn" class="w-full bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">
+        Analyze Bookmarks
+      </button>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div class="loading mb-4">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500 mx-auto"></div>
+      <p class="text-center mt-2 text-gray-600">Processing...</p>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="space-y-4">
+      <div class="bg-white rounded-lg shadow p-4">
+        <h2 class="text-lg font-semibold mb-2 text-gray-700">Suggested Categories</h2>
+        <div id="categories" class="space-y-2"></div>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="js/popup.js"></script>
+</body>
+</html>
