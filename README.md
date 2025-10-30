@@ -3,353 +3,327 @@
 An intelligent Chrome extension that helps you organize and manage your bookmarks using AI-powered analysis, part of the OSOM AI framework. Export your bookmarks to Notion, Obsidian, or XMind for better organization.
 
 ![Chrome Extension](https://img.shields.io/badge/Chrome-Extension-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0-blue)
+![Version](https://img.shields.io/badge/version-1.1.0-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Security](https://img.shields.io/badge/security-AES--256--GCM-red)
 
 ## 🌟 Features
 
 - **AI-Powered Analysis**: Automatically categorize bookmarks using intelligent URL and title analysis
-- **Smart Recommendations**: Get suggestions for organizing your bookmarks into logical folders
+- **Smart Recommendations**: Get suggestions for organizing your bookmarks into logical folders  
+- **🔐 Encrypted Credential Storage**: AES-256-GCM encryption for secure Notion token storage
 - **Notion Integration**: Export bookmarks directly to your Notion databases
 - **Multiple Export Formats**: Support for Notion, Obsidian, and XMind
 - **Modern UI**: Clean, user-friendly interface built with Tailwind CSS
 - **Real-time Processing**: Analyze and organize bookmarks on-the-fly
 
+## 🏗️ Project Structure
+
+```
+chrome_bookmark_manager/
+├── extension/                  # Chrome extension files
+│   ├── manifest.json          # Extension manifest
+│   ├── popup.html             # Popup interface
+│   ├── background.js          # Background service worker
+│   ├── icons/                 # Extension icons
+│   │   ├── icon16.png
+│   │   ├── icon48.png
+│   │   └── icon128.png
+│   ├── js/                    # JavaScript modules
+│   │   ├── popup.js           # Main popup logic
+│   │   └── crypto.js          # 🔐 Encryption utilities
+│   ├── integrations/          # Integration modules
+│   │   ├── osom-integration.js    # AI categorization engine
+│   │   └── notion-integration.js  # Notion API wrapper
+│   └── styles/                # Stylesheets
+│       └── popup.css          # Custom styles
+│
+├── python_scripts/            # Python utilities
+│   ├── main.py                # Main processing script
+│   └── bookmarks_to_notion.py # Notion export utility
+│
+├── docs/                      # Documentation
+│   ├── SECURITY.md            # Security information
+│   └── INSTALLATION.md        # Installation guide
+│
+├── requirements.txt           # Python dependencies
+├── CHANGELOG.md               # Version history
+└── README.md                  # This file
+```
+
+## 🔐 Security Features (NEW!)
+
+### Encrypted Credential Storage
+
+Version 1.1.0 introduces **AES-256-GCM encryption** for protecting your Notion API credentials:
+
+- **Encryption Algorithm**: AES-256-GCM (industry standard)
+- **Key Derivation**: SHA-256 hash of extension ID + salt
+- **IV**: Random 96-bit initialization vector per encryption
+- **Storage**: Encrypted data stored in Chrome local storage
+
+#### How It Works
+
+1. When you save credentials, they are encrypted using Web Crypto API
+2. The encryption key is derived from your unique extension installation ID
+3. Data is encrypted with AES-GCM and a random IV
+4. Only the encrypted ciphertext is stored
+5. Credentials are decrypted only when needed
+
+#### Security Benefits
+
+✅ **Before (v1.0)**:
+- Plain text storage
+- Readable by any script
+- Visible in DevTools
+
+✅ **After (v1.1)**:
+- AES-256-GCM encrypted
+- Requires decryption key
+- Not visible in plain text
+- Protected from casual inspection
+
+**Read more**: [docs/SECURITY.md](docs/SECURITY.md)
+
 ## 📋 Prerequisites
 
-Before installing this extension, ensure you have:
-
 - **Google Chrome** (version 88 or higher)
-- **Python 3.7+** (for Python scripts)
-- **Node.js** (optional, for development)
+- **Python 3.7+** (optional, for Python scripts)
 
-### Python Dependencies
+## 🚀 Quick Start
 
-The Python scripts require the following packages:
+### Install the Extension
 
-```bash
-pip install -r requirements.txt
-```
-
-Required packages:
-- `pandas` - Data manipulation
-- `notion-client` - Notion API integration
-- `spacy` - Natural language processing (optional)
-- `nltk` - Text processing (optional)
-- `xmind` - XMind file generation
-
-### SpaCy Language Model (Optional)
-
-If you plan to use advanced NLP features:
-
-```bash
-python -m spacy download en_core_web_sm
-```
-
-## 🚀 Installation
-
-### Chrome Extension
-
-1. **Clone or download this repository**:
+1. **Clone or download**:
    ```bash
    git clone https://github.com/MarlinZH/chrome_bookmark_manager.git
    cd chrome_bookmark_manager
    ```
 
-2. **Open Chrome Extensions page**:
+2. **Load in Chrome**:
    - Navigate to `chrome://extensions/`
-   - Or: Menu → More Tools → Extensions
+   - Enable \"Developer mode\"
+   - Click \"Load unpacked\"
+   - Select the `extension` folder
 
-3. **Enable Developer Mode**:
-   - Toggle the "Developer mode" switch in the top right corner
+3. **Done!** The extension icon appears in your toolbar.
 
-4. **Load the extension**:
-   - Click "Load unpacked"
-   - Select the `chrome_bookmark_manager` directory
-   - The extension icon should appear in your Chrome toolbar
-
-### Python Scripts
-
-1. **Install dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-2. **Set up environment variables** (for Notion integration):
-   ```bash
-   export NOTION_TOKEN="your_notion_integration_token"
-   export DATABASE_ID="your_notion_database_id"
-   ```
+**Detailed instructions**: [docs/INSTALLATION.md](docs/INSTALLATION.md)
 
 ## 📖 Usage
 
-### Using the Chrome Extension
+### Analyzing Bookmarks
 
-1. **Click the extension icon** in your Chrome toolbar
+1. Click the extension icon
+2. Click \"Analyze Bookmarks\"
+3. View AI-generated categories
+4. See recommended folder names
 
-2. **Analyze Bookmarks**:
-   - Click the "Analyze Bookmarks" button
-   - Wait for the AI to categorize your bookmarks
-   - View suggested categories and organization recommendations
+### Creating Folders
 
-3. **Create Folders**:
-   - Select a recommended category or enter a custom name
-   - Click "Create" to add a new bookmark folder
+1. Select a recommended category OR enter a custom name
+2. Click \"Create\"
+3. Folder is added to your bookmarks
 
-4. **Browse Bookmarks**:
-   - Click on any folder to view its bookmarks
-   - Bookmarks are displayed with clickable links
+### Exporting to Notion
 
-### Notion Integration Setup
+#### First Time Setup
 
-1. **Create a Notion Integration**:
-   - Go to [Notion Integrations](https://www.notion.so/my-integrations)
-   - Click "+ New integration"
-   - Give it a name (e.g., "Bookmark Manager")
-   - Copy the "Internal Integration Token"
+1. **Create Notion Integration**: [notion.so/my-integrations](https://www.notion.so/my-integrations)
+2. **Create Database**: Add a full-page database in Notion
+3. **Share Database**: Invite your integration to the database
+4. **Get Database ID**: Copy from the database URL
 
-2. **Share your database with the integration**:
-   - Open your Notion database
-   - Click "Share" in the top right
-   - Invite your integration
+#### Export Process
 
-3. **Get your Database ID**:
-   - Open your database in a browser
-   - Copy the URL
-   - Extract the ID (the long string between `/` and `?`)
-   - Example: `https://notion.so/workspace/DATABASE_ID?v=...`
+1. Enter your Integration Token (encrypted on save)
+2. Enter your Database ID
+3. Click \"Save\" (credentials are encrypted with AES-256-GCM)
+4. Click \"Export to Notion\"
+5. Wait for completion message
 
-4. **Configure the extension**:
-   - Paste your Integration Token
-   - Paste your Database ID
-   - Click "Save"
-   - Click "Export to Notion"
+### Clearing Credentials
 
-### Using Python Scripts
+For security, you can clear stored credentials:
 
-#### Export to Notion
-
-```bash
-python Bookmarks_to_Notion.py
-```
-
-This script will automatically:
-- Detect your Chrome bookmarks file location
-- Extract all bookmark folders
-- Export them to your Notion database
-
-#### Export to Obsidian
-
-```bash
-python Bookmarks_to_Obsidian.py
-```
-
-#### Export to XMind
-
-```bash
-python Bookmarks_to_XMind.py
-```
-
-#### Manual Processing
-
-For more control, use `main.py`:
-
-```bash
-python main.py
-```
-
-You'll be prompted for:
-- Path to your bookmarks file
-- Notion integration token
-- Notion database ID
-
-### Finding Your Bookmarks File
-
-Chrome bookmarks are typically located at:
-
-- **Windows**: `C:\Users\[Username]\AppData\Local\Google\Chrome\User Data\Default\Bookmarks`
-- **macOS**: `/Users/[Username]/Library/Application Support/Google/Chrome/Default/Bookmarks`
-- **Linux**: `/home/[Username]/.config/google-chrome/Default/Bookmarks`
-
-## 🏗️ Project Structure
-
-```
-chrome_bookmark_manager/
-├── manifest.json              # Chrome extension manifest
-├── popup.html                 # Extension popup interface
-├── popup.js                   # Main popup logic
-├── background.js              # Background service worker
-├── style.css                  # Custom styles
-├── icons/                     # Extension icons
-│   ├── icon16.png
-│   ├── icon48.png
-│   └── icon128.png
-├── osom-integration.js        # OSOM AI categorization engine
-├── notion-integration.js      # Notion API wrapper
-├── main.py                    # Main Python script
-├── Bookmarks_to_Notion.py     # Notion export utility
-├── Bookmarks_to_Obsidian.py   # Obsidian export utility
-├── Bookmarks_to_XMind.py      # XMind export utility
-├── requirements.txt           # Python dependencies
-└── README.md                  # This file
-```
+1. Click \"Clear\" button in the Notion section
+2. Confirm the action
+3. Encrypted credentials are permanently removed
 
 ## 🔧 Development
 
-The extension is built using:
-
-- **HTML/CSS**: Interface structure
-- **Tailwind CSS**: Utility-first styling
-- **JavaScript (ES6+)**: Core logic
-- **Chrome Extension APIs**: Browser integration
-- **Python**: Data processing and exports
-
 ### Technology Stack
 
-#### Frontend
+**Extension**:
 - Chrome Manifest V3
-- ES6 Modules
-- Tailwind CSS (CDN)
-- Chrome Bookmarks API
-- Chrome Storage API
+- JavaScript ES6 Modules
+- Web Crypto API (for encryption)
+- Tailwind CSS
+- Chrome APIs (Bookmarks, Storage)
 
-#### Backend
+**Python Scripts**:
 - Python 3.7+
-- Notion API
-- SpaCy NLP (optional)
-- NLTK (optional)
+- Notion API Client
+- Pandas, NLTK, SpaCy (optional)
 
 ### Key Components
 
-#### OSOM Integration (`osom-integration.js`)
+#### 🔐 CryptoManager (`extension/js/crypto.js`)
 
-The OSOM (Open Source Organization Manager) engine analyzes bookmarks based on:
+Handles all encryption/decryption:
+- `encrypt(plaintext)` - Encrypt data with AES-GCM
+- `decrypt(ciphertext)` - Decrypt data
+- `secureStore(key, value)` - Encrypt and store
+- `secureRetrieve(key)` - Retrieve and decrypt
+- `secureRemove(key)` - Remove encrypted data
+
+#### OSOM Integration (`extension/integrations/osom-integration.js`)
+
+AI categorization engine that analyzes:
 - URL domain patterns
-- URL path analysis
-- Title keyword extraction
-- Weighted scoring system
+- URL path structure
+- Title keywords
+- Weighted scoring
 
-Supported categories:
-- Technology
-- Business
-- Education
-- Entertainment
-- News
-- Social
-- Shopping
-- Health
-- Finance
-- Travel
+Categories: Technology, Business, Education, Entertainment, News, Social, Shopping, Health, Finance, Travel
 
-#### Notion Integration (`notion-integration.js`)
+#### Notion Integration (`extension/integrations/notion-integration.js`)
 
-Handles communication with the Notion API to:
-- Create database entries
-- Organize bookmarks by folder
-- Maintain folder hierarchy
+Notion API wrapper:
+- Create pages in databases
+- Batch import bookmarks
+- Test connection
+- Error handling
 
-## 🔒 Security & Privacy
+## 📊 Python Scripts
 
-### Data Storage
+### Main Script
 
-- **Notion tokens** are stored in Chrome's local storage
-- **No data** is sent to external servers (except Notion when explicitly requested)
-- **All processing** happens locally in your browser
+```bash
+python python_scripts/main.py
+```
 
-### Important Security Notes
+Interactive script that:
+- Loads Chrome bookmarks
+- Organizes by folder
+- Extracts folder structure
+- Exports to Notion
 
-⚠️ **Warning**: API tokens stored in Chrome's local storage are not encrypted. Keep your tokens secure and:
-- Don't share your Chrome profile
-- Don't commit tokens to version control
-- Regularly rotate your Notion integration tokens
-- Only grant necessary permissions to integrations
+### Auto-Export Script
+
+```bash
+# Set environment variables
+export NOTION_TOKEN="your_token"
+export DATABASE_ID="your_db_id"
+
+# Run
+python python_scripts/bookmarks_to_notion.py
+```
+
+Auto-detects bookmark location and exports.
+
+## 🛡️ Security Best Practices
+
+1. **Use Integration Tokens**: Create dedicated integrations, not personal tokens
+2. **Limit Permissions**: Only grant necessary database access
+3. **Rotate Regularly**: Change tokens periodically
+4. **Clear When Done**: Use \"Clear\" button after exporting
+5. **Lock Computer**: Always lock when away
+6. **Don't Share Profile**: Keep Chrome profile private
+
+**Full security details**: [docs/SECURITY.md](docs/SECURITY.md)
 
 ## 🐛 Troubleshooting
 
-### Extension Not Loading
+### Extension Issues
 
-- Ensure Developer Mode is enabled in Chrome
-- Check the console for errors: Right-click extension icon → Inspect popup
-- Verify all files are present in the extension directory
+**Won't Load**: Ensure you selected the `extension` folder, not root  
+**No Icon**: Check `extension/icons/` folder exists  
+**Analysis Fails**: Check browser console for errors
 
-### Bookmarks Not Analyzing
+### Notion Issues
 
-- Check browser console for JavaScript errors
-- Ensure you have bookmarks to analyze
-- Try refreshing the extension
+**Export Fails**: 
+- Verify token is correct
+- Ensure database is shared with integration
+- Check Database ID is 32 characters
+- Verify database has Name, URL, and Folder properties
 
-### Notion Export Failing
+**Credentials Not Saving**:
+- Check browser console for encryption errors
+- Ensure Chrome supports Web Crypto API
+- Try clearing and re-entering
 
-- Verify your Integration Token is correct
-- Ensure the database is shared with your integration
-- Check that the Database ID is correct
-- Verify network connectivity
+### Python Issues
 
-### Python Scripts Not Working
-
+**Module Not Found**:
 ```bash
-# Verify Python version
-python --version  # Should be 3.7+
-
-# Reinstall dependencies
-pip install --upgrade -r requirements.txt
-
-# Check environment variables
-echo $NOTION_TOKEN
-echo $DATABASE_ID
+pip install -r requirements.txt
 ```
 
-### Common Issues
+**NLTK Errors**:
+```python
+import nltk
+nltk.download('punkt')
+nltk.download('stopwords')
+```
 
-**Issue**: "File not found" error
-- **Solution**: Verify the bookmarks file path for your OS
+## 🔄 Changelog
 
-**Issue**: "Invalid JSON" error
-- **Solution**: Chrome bookmarks file may be corrupted; check Chrome settings
+### [1.1.0] - 2025-10-30
 
-**Issue**: NLTK data not found
-- **Solution**: Run the download commands again:
-  ```python
-  import nltk
-  nltk.download('punkt')
-  nltk.download('stopwords')
-  ```
+#### Added
+- 🔐 **AES-256-GCM encryption** for credential storage
+- New `CryptoManager` class for encryption operations
+- \"Clear\" button to remove stored credentials
+- Comprehensive security documentation
+- Installation guide
+- Reorganized project structure
 
-## 🔄 Future Improvements
+#### Changed
+- Moved extension files to `extension/` directory
+- Moved Python scripts to `python_scripts/` directory
+- Updated manifest to version 1.1.0
+- Improved UI with better feedback
+- Enhanced error handling
 
-- [ ] Cloud sync for settings and categories
-- [ ] Custom categorization rules
-- [ ] Machine learning for improved categorization
-- [ ] Bulk bookmark operations
-- [ ] Import from other browsers
-- [ ] Export to more formats (CSV, JSON, etc.)
-- [ ] Dark mode support
-- [ ] Multi-language support
-- [ ] Duplicate detection
-- [ ] Broken link checker
-- [ ] Chrome Web Store publication
+#### Security
+- Credentials now encrypted at rest
+- Secure key derivation using extension ID
+- Random IV generation per encryption
+- Protection against casual data inspection
+
+### [1.0.1] - 2025-10-30
+- Fixed critical bugs
+- Added comprehensive documentation
+- Improved error handling
+
+### [1.0.0] - 2023-12-24
+- Initial release
+
+**Full changelog**: [CHANGELOG.md](CHANGELOG.md)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help:
+Contributions welcome!
 
-1. **Fork the repository**
-2. **Create a feature branch**: `git checkout -b feature/amazing-feature`
-3. **Commit your changes**: `git commit -m 'Add amazing feature'`
-4. **Push to the branch**: `git push origin feature/amazing-feature`
-5. **Open a Pull Request**
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
 
-### Contribution Guidelines
+### Guidelines
 
 - Follow existing code style
-- Add comments for complex logic
-- Test thoroughly before submitting
-- Update documentation as needed
-- Include screenshots for UI changes
+- Add encryption for any new credential storage
+- Test thoroughly
+- Update documentation
+- Include security considerations
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+This project is licensed under the MIT License.
 
 ## 👤 Author
 
@@ -359,32 +333,19 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## 🙏 Acknowledgments
 
 - Chrome Extensions documentation
+- Web Crypto API
 - Notion API team
 - Tailwind CSS community
-- Contributors and testers
+- Security reviewers and contributors
 
 ## 📞 Support
 
-If you encounter issues or have questions:
-
-1. Check the [Troubleshooting](#-troubleshooting) section
-2. Search existing [GitHub Issues](https://github.com/MarlinZH/chrome_bookmark_manager/issues)
-3. Create a new issue with:
-   - Detailed description
-   - Steps to reproduce
-   - Expected vs actual behavior
-   - Screenshots if applicable
-   - Chrome version and OS
-
-## 📊 Version History
-
-### Version 1.0 (Current)
-- Initial release
-- AI-powered bookmark analysis
-- Notion integration
-- Multiple export formats
-- Modern UI with Tailwind CSS
+- **Documentation**: [docs/](docs/)
+- **Issues**: [GitHub Issues](https://github.com/MarlinZH/chrome_bookmark_manager/issues)
+- **Security**: See [SECURITY.md](docs/SECURITY.md)
 
 ---
 
-**Note**: This project is under active development. Star the repository to stay updated with new features and improvements!
+**⭐ Star this repo** if you find it useful!
+
+**🔐 Your credentials are now encrypted and protected!**
